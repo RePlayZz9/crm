@@ -1,13 +1,310 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Personal CRM - Warm &amp; Human Relationship Tracker</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal CRM - Warm & Human Relationship Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+                            <g fill="none" stroke="currentColor" stroke-width="4">
+                                <path d="M13.5 39.37A16.93 16.93 0 0 0 24 43c3.963 0 7.61-1.356 10.5-3.63M19 9.747C12.051 11.882 7 18.351 7 26c0 1.925.32 3.775.91 5.5M29 9.747C35.949 11.882 41 18.351 41 26c0 1.925-.32 3.775-.91 5.5"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M43 36c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 43 36m-28 0c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 15 36M29 9c0 1.342-.528 2.56-1.388 3.458A5 5 0 1 1 29 9"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="header-info">
+                        <h1>Connections</h1>
+                        <p>Your personal relationship journal</p>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="theme-toggle">
+                        <button class="theme-btn active" data-theme="light">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"/>
+                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                            </svg>
+                            <span>Light</span>
+                        </button>
+                        <button class="theme-btn" data-theme="dark">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                            </svg>
+                            <span>Dark</span>
+                        </button>
+                    </div>
+                    <button class="add-note-btn" id="addNoteBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        <span>Add Note</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="nav-content">
+                <button class="nav-tab active" data-tab="home">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    <span>Today</span>
+                </button>
+                <button class="nav-tab" data-tab="contacts">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span>People</span>
+                </button>
+                <button class="nav-tab" data-tab="timeline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Memory</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Tab -->
+            <div id="homeTab" class="tab-content active">
+                <div class="welcome-section">
+                    <h2 id="welcomeMessage">Good morning</h2>
+                    <p>Here's what's happening with your connections today</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card stat-people">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <div>
+                            <p class="stat-number" id="totalContacts">0</p>
+                            <p class="stat-label">People in your network</p>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-starred">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                        </svg>
+                        <div>
+                            <p class="stat-number" id="starredContacts">0</p>
+                            <p class="stat-label">Starred connections</p>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-reminders">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <div>
+                            <p class="stat-number" id="pendingReminders">0</p>
+                            <p class="stat-label">Pending reminders</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-grid">
+                    <div class="home-section">
+                        <div class="section-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                            <h3>Today's Reminders</h3>
+                        </div>
+                        <div id="todayReminders" class="reminders-list">
+                            <p class="empty-state">All caught up! No reminders for today.</p>
+                        </div>
+                    </div>
+
+                    <div class="home-section">
+                        <div class="section-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                            </svg>
+                            <h3>Starred People</h3>
+                        </div>
+                        <div id="starredPeople" class="starred-list">
+                            <p class="empty-state">Star your important contacts to see them here.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-section">
+                    <div class="section-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
+                            <polyline points="17,6 23,6 23,12"/>
+                        </svg>
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div id="recentActivity" class="activity-list"></div>
+                </div>
+            </div>
+
+            <!-- Contacts Tab -->
+            <div id="contactsTab" class="tab-content">
+                <div class="contacts-header">
+                    <div>
+                        <h2>Your People</h2>
+                        <p>Manage your personal network</p>
+                    </div>
+                </div>
+
+                <div class="contacts-controls">
+                    <div class="search-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search people or tags...">
+                    </div>
+                    <div class="filter-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/>
+                        </svg>
+                        <select id="filterSelect">
+                            <option value="all">All People</option>
+                            <option value="starred">Starred</option>
+                            <option value="needs-attention">Needs Attention</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="contactsGrid" class="contacts-grid"></div>
+            </div>
+
+            <!-- Timeline Tab -->
+            <div id="timelineTab" class="tab-content">
+                <div class="timeline-header">
+                    <h2>Memory Feed</h2>
+                    <p>Your interaction history and notes</p>
+                </div>
+                <div id="timelineContent" class="timeline-content"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Note Entry Modal -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Note</h2>
+                <button class="close-btn" id="closeModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Person</label>
+                    <select id="noteContact">
+                        <option value="">Select a person...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Interaction Type</label>
+                    <div class="type-buttons">
+                        <button class="type-btn active" data-type="note">Note</button>
+                        <button class="type-btn" data-type="call">Call</button>
+                        <button class="type-btn" data-type="email">Email</button>
+                        <button class="type-btn" data-type="meeting">Meeting</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Note Content</label>
+                    <textarea id="noteContent" placeholder="What happened? How did it go? Any important details to remember..." rows="6"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>How did it feel?</label>
+                    <div class="sentiment-buttons">
+                        <button class="sentiment-btn" data-sentiment="positive">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Positive</span>
+                        </button>
+                        <button class="sentiment-btn active" data-sentiment="neutral">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="8" y1="15" x2="16" y2="15"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Neutral</span>
+                        </button>
+                        <button class="sentiment-btn" data-sentiment="needs-attention">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            <span>Needs Attention</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div id="noteTags" class="tags-display"></div>
+                    <div class="tag-input">
+                        <input type="text" id="newTag" placeholder="Add a tag...">
+                        <button id="addTagBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                                <line x1="7" y1="7" x2="7.01" y2="7"/>
+                            </svg>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" id="cancelNote">Cancel</button>
+                <button class="save-btn" id="saveNote">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17,21 17,13 7,13 7,21"/>
+                        <polyline points="7,3 7,8 15,8"/>
+                    </svg>
+                    Save Note
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
 </html>
